@@ -19,6 +19,7 @@ public class ScenarioManager : MonoBehaviour
     readonly Regex statementRegex = new("^ *&");
     readonly Regex indentRegex = new("^ *");
     readonly Regex choiceStatementRegex = new("^ *&choice");
+    readonly Regex jumpStatementRegex = new("^ *&jump");
 
     void Awake()
     {
@@ -34,7 +35,7 @@ public class ScenarioManager : MonoBehaviour
                 string key = NormalizeSentence(line).Split(" ")[2];
                 if (!jumpKey.ContainsKey(key))
                 {
-                    jumpKey.Add(key, sentences.Count - 1);
+                    jumpKey.Add(key, sentences.Count - 1);  // ジャンプ先の行番号を保管しておく
                 }
             }
         }
@@ -71,6 +72,12 @@ public class ScenarioManager : MonoBehaviour
         return choiceStatementRegex.IsMatch(sentence);
     }
 
+    // 文が他の行へ移動する命令かどうか
+    public bool IsJumpStatement(string sentence)
+    {
+        return jumpStatementRegex.IsMatch(sentence);
+    }
+
     // 命令を実行する
     public void ExecuteStatement(string sentence)
     {
@@ -97,31 +104,19 @@ public class ScenarioManager : MonoBehaviour
                     gameManager.audioManager.StopAudio(words[1]);
                 }
                 break;
-            case "&jump":
-                if (words.Length >= 3)
-                {
-                    if (words[1] == "to")
-                    {
-                        string key = words[2];
-                        if (jumpKey.ContainsKey(key)) {
-                            gameManager.lineNumber = jumpKey[key];
-                        }
-                    }
-                }
-                break;
             case "&end":
                 Application.Quit();
-                gameManager.lineNumber = -1;
+                gameManager.lineNumber = -1;  // デバッグ用
                 break;
         }
     }
 
     // 選択肢の命令を実行する（特殊な命令なのでExecuteStatementから処理を分ける）
-    public void ExecuteChoiceStatement()
+    public void ExecuteChoiceStatement(int firstStatementLineNumber)
     {
         List<Choice> choices = new();
-        int indent = GetIndent(GetCurrentSentence());
-        for (int currentLineNumber = gameManager.lineNumber + 1; currentLineNumber < sentences.Count; currentLineNumber++)
+        int indent = GetIndent(sentences[firstStatementLineNumber]);
+        for (int currentLineNumber = firstStatementLineNumber; currentLineNumber < sentences.Count; currentLineNumber++)
         {
             string sentence = sentences[currentLineNumber];
             int currentIndent = GetIndent(sentence);
@@ -133,6 +128,25 @@ public class ScenarioManager : MonoBehaviour
             }
         }
         if (choices.Count > 0) gameManager.buttonManager.SetButton(choices);
+    }
+
+    // 他の行へ移動する命令を実行する（特殊な命令なのでExecuteStatementから処理を分ける）
+    public void ExecuteJumpStatement(string statement)
+    {
+        string[] words = NormalizeSentence(statement).Split(' ');
+        if (words[0] == "&jump") 
+        {
+            if (words.Length >= 3)
+            {
+                if (words[1] == "to")
+                {
+                    string key = words[2];
+                    if (jumpKey.ContainsKey(key)) {
+                        gameManager.lineNumber = jumpKey[key];
+                    }
+                }
+            }
+        }
     }
 
     public int GetIndent(string sentence)

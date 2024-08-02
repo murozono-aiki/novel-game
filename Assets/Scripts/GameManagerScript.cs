@@ -12,5 +12,6 @@ public class GameManagerScript : MonoBehaviour
 
     [System.NonSerialized] public int lineNumber = 0;
     
+    // 分岐のボタンが表示され、押されるのを待っている間はtrueとなり、左クリックによって次の行へ進むのを抑止する
     [System.NonSerialized] public bool isWaitingButtonClick = false;
 }

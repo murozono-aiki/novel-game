@@ -34,6 +34,9 @@ public class ButtonManager : MonoBehaviour
         SetButton(new List<ScenarioManager.Choice>(0));
         gameManager.lineNumber = buttons[index].nextLineNumber;
         gameManager.isWaitingButtonClick = false;
+        gameManager.mainTextController.GoToTheNextLine();  // 選択肢の命令がある行（&choice）から、次の（命令でない）行まで移動する。
+        // この直後、ボタンを押したため Input.GetMouseButtonUp(0) がtrueの状態でMainTextControllerのUpdateが実行される。
+        // すなわち、MainTextController.DisplayNextLineが実行される
     }
 
     public void SetButton(List<ScenarioManager.Choice> actions)
