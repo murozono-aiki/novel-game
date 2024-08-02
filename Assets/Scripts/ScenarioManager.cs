@@ -87,6 +87,16 @@ public class ScenarioManager : MonoBehaviour
                     gameManager.imageManager.RemoveImage(words[1]);
                 }
                 break;
+            case "&audio":
+                if (words.Length >= 3)  // 第２引数が存在する場合は音声の再生
+                {
+                    gameManager.audioManager.PlayAudio(words[1], words[2]);
+                }
+                else if (words.Length >= 2)  // 第２引数が存在しない場合は音声の停止
+                {
+                    gameManager.audioManager.StopAudio(words[1]);
+                }
+                break;
             case "&jump":
                 if (words.Length >= 3)
                 {
@@ -101,6 +111,7 @@ public class ScenarioManager : MonoBehaviour
                 break;
             case "&end":
                 Application.Quit();
+                gameManager.lineNumber = -1;
                 break;
         }
     }

@@ -8,6 +8,7 @@ public class GameManagerScript : MonoBehaviour
     public MainTextController mainTextController;
     public ImageManager imageManager;
     public ButtonManager buttonManager;
+    public AudioManager audioManager;
 
     [System.NonSerialized] public int lineNumber = 0;
     

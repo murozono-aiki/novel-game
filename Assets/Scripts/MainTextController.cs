@@ -33,16 +33,17 @@ public class MainTextController : MonoBehaviour
     void Update()
     {
         // 文章を１文字ずつ表示する
-        time += Time.deltaTime;
-        if (time >= feedTime)
-        {
-            time -= feedTime;
-            if (!canGoToTheNextLine)
+        if (!canGoToTheNextLine) {
+            time += Time.deltaTime;
+            if (time >= feedTime)
             {
+                time -= feedTime;
+
                 displayedSentenceLength++;
                 mainText.maxVisibleCharacters = displayedSentenceLength;
                 if (displayedSentenceLength > sentenceLength)
                 {
+                    time = 0;
                     canGoToTheNextLine = true;  // 現在の行の全ての文字が表示され、次の行へ行くことが可能に
                     scenarioManager.ExecuteChoiceStatement();  // 選択肢がある場合は選択肢を表示
                 }
