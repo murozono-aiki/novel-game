@@ -9,9 +9,10 @@ public class GameManagerScript : MonoBehaviour
     public ImageManager imageManager;
     public ButtonManager buttonManager;
     public AudioManager audioManager;
+    public MainSceneManager mainSceneManager;
 
     [System.NonSerialized] public int lineNumber = 0;
     
-    // 分岐のボタンが表示され、押されるのを待っている間はtrueとなり、左クリックによって次の行へ進むのを抑止する
+    // 分岐のボタンが表示されて押されるのを待っている間はtrueとなり、左クリックによって次の行へ進むのを抑止する
     [System.NonSerialized] public bool isWaitingButtonClick = false;
 }

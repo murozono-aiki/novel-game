@@ -7,6 +7,6 @@ public class TitleSceneScript : MonoBehaviour
 {
     public void OnStartButtonClick()
     {
-        SceneManager.LoadSceneAsync(1);
+        SceneManager.LoadScene(1);  // MainSceneをロード
     }
 }

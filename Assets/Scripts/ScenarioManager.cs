@@ -4,6 +4,7 @@ using UnityEngine;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class ScenarioManager : MonoBehaviour
 {
@@ -105,8 +106,8 @@ public class ScenarioManager : MonoBehaviour
                 }
                 break;
             case "&end":
-                Application.Quit();
-                gameManager.lineNumber = -1;  // デバッグ用
+                gameManager.mainSceneManager.SetSceneInactive();
+                SceneManager.LoadScene(2, LoadSceneMode.Additive);  // EndingSceneをロード
                 break;
         }
     }
