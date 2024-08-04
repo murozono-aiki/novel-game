@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManagerScript : MonoBehaviour
 {
@@ -15,4 +16,16 @@ public class GameManagerScript : MonoBehaviour
     
     // 分岐のボタンが表示されて押されるのを待っている間はtrueとなり、左クリックによって次の行へ進むのを抑止する
     [System.NonSerialized] public bool isWaitingButtonClick = false;
+
+    void Update()
+    {
+        if (mainSceneManager.Is_active)
+        {
+            if (Input.GetKeyUp(KeyCode.Escape))
+            {
+                SceneManager.LoadScene(3, LoadSceneMode.Additive);  // QuitConfirmSceneをロード
+                mainSceneManager.SetSceneInactive();
+            }
+        }
+    }
 }

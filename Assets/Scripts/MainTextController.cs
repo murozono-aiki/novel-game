@@ -35,39 +35,42 @@ public class MainTextController : MonoBehaviour
 
     void Update()
     {
-        // 文章を１文字ずつ表示する
-        if (!canGoToTheNextLine) {
-            time += Time.deltaTime;
-            if (time >= feedTime)
-            {
-                time -= feedTime;
-
-                displayedSentenceLength++;
-                mainText.maxVisibleCharacters = displayedSentenceLength;
-                if (displayedSentenceLength > sentenceLength)
+        if (gameManager.mainSceneManager.Is_active)
+        {
+            // 文章を１文字ずつ表示する
+            if (!canGoToTheNextLine) {
+                time += Time.deltaTime;
+                if (time >= feedTime)
                 {
-                    time = 0;
-                    canGoToTheNextLine = true;  // 現在の行の全ての文字が表示され、次の行へ行くことが可能に
-                    if (choiceStatementLineNumber >= 0)
+                    time -= feedTime;
+
+                    displayedSentenceLength++;
+                    mainText.maxVisibleCharacters = displayedSentenceLength;
+                    if (displayedSentenceLength > sentenceLength)
                     {
-                        scenarioManager.ExecuteChoiceStatement(choiceStatementLineNumber);  // 選択肢がある場合は選択肢を表示
+                        time = 0;
+                        canGoToTheNextLine = true;  // 現在の行の全ての文字が表示され、次の行へ行くことが可能に
+                        if (choiceStatementLineNumber >= 0)
+                        {
+                            scenarioManager.ExecuteChoiceStatement(choiceStatementLineNumber);  // 選択肢がある場合は選択肢を表示
+                        }
                     }
                 }
             }
-        }
 
-        // クリックされたとき、選択肢がなければ、次の行へ移動
-        if (!gameManager.isWaitingButtonClick)
-        {
-            if (Input.GetMouseButtonUp(0))
+            // クリックされたとき、選択肢がなければ、次の行へ移動
+            if (!gameManager.isWaitingButtonClick)
             {
-                if (canGoToTheNextLine)
+                if (Input.GetMouseButtonUp(0))
                 {
-                    DisplayNextLine();
-                }
-                else
-                {
-                    displayedSentenceLength = sentenceLength;
+                    if (canGoToTheNextLine)
+                    {
+                        DisplayNextLine();
+                    }
+                    else
+                    {
+                        displayedSentenceLength = sentenceLength;
+                    }
                 }
             }
         }

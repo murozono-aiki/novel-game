@@ -2049,7 +2049,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameManager: {fileID: 81230943}
   mainText: {fileID: 820133725}
-  fontSize_fullHD: 58
+  fontSize_fullHD: 55
 --- !u!4 &1173987005
 Transform:
   m_ObjectHideFlags: 0

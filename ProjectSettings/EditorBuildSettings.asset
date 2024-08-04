@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/EndingScene.unity
     guid: 0cb71e3cb3b118f4abe1514cc5d1a8f3
+  - enabled: 1
+    path: Assets/Scenes/QuitConfirmScene.unity
+    guid: 28742e097446bfe45ac2c5a65937f8e5
   m_configObjects: {}
