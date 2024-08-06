@@ -54,6 +54,10 @@ public class MainTextController : MonoBehaviour
                         {
                             scenarioManager.ExecuteChoiceStatement(choiceStatementLineNumber);  // 選択肢がある場合は選択肢を表示
                         }
+                        else
+                        {
+                            gameManager.guideManager.DisplayGuide();  // 選択肢がない場合は「左クリックで進む」を表示
+                        }
                     }
                 }
             }
@@ -79,6 +83,7 @@ public class MainTextController : MonoBehaviour
     // 次の行の内容を表示する際の処理
     public void DisplayNextLine()
     {
+        gameManager.guideManager.HideGuide();
         ExecuteStatements();
         DisplayText();
         GoToTheNextLine();
